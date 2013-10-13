@@ -11,25 +11,26 @@ You can download about 5000 images per board. If the board has more images you h
 pip install argparse
 
 ### Install Python requests and pillow (PIL fork):
-pip install requests
+pip install requests  
 pip install pillow (make sure libjpeg-dev is installed before!)
 
 ### Install the git package 
-Ubuntu: apt-get install git-core / Gentoo: emerge -av git / ...
+Ubuntu: apt-get install git-core  
+Gentoo: emerge -av git
 
 ### Install PhantomJS 1.8.x (needed for CasperJS):
-cd /opt/src (for e.g.).
-wget http://phantomjs.googlecode.com/files/phantomjs-1.8.2-linux-x86_64.tar.bz2
-tar xvfj phantomjs-1.8.2-linux-x86_64.tar.bz2
-ln -s /opt/src/phantomjs-1.8.2-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
+cd /opt/src (for e.g.).  
+wget http://phantomjs.googlecode.com/files/phantomjs-1.8.2-linux-x86_64.tar.bz2  
+tar xvfj phantomjs-1.8.2-linux-x86_64.tar.bz2  
+ln -s /opt/src/phantomjs-1.8.2-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs  
 Test if phantomjs is in path and is executable: phantomjs --version
 
 ### Install CasperJS 1.1.x
-cd /opt/src
-mkdir casperjs-1.1.0
-cd casperjs-1.1.0
-git clone git://github.com/n1k0/casperjs.git
-ln -s /opt/src/casperjs-1.1.0/casperjs/bin/casperjs /usr/local/bin/casperjs
+cd /opt/src  
+mkdir casperjs-1.1.0  
+cd casperjs-1.1.0  
+git clone git://github.com/n1k0/casperjs.git  
+ln -s /opt/src/casperjs-1.1.0/casperjs/bin/casperjs /usr/local/bin/casperjs  
 Test if casperjs is in path and is executable: casperjs --version
 
 ### pindownloadr2
