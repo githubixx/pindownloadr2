@@ -1,6 +1,6 @@
 # pindownloadr2
 
-Let's you download the big pictures from pinterest.com. To use the PINterest image DOWNLOADeR2 (Version 1 didn't worked anymore this pinterest depends extremly on JavaScript) you need to install some dependencies. You need Python >= V2.6.
+Let's you download the big pictures from pinterest.com. To use the PINterest image DOWNLOADeR2 (Version 1 didn't worked anymore since pinterest now depends extremly on JavaScript) you need to install some dependencies. You need Python >= V2.6.
 
 ## Hint
 You can download about 5000 images per board. If the board has more images you have to adjust the viewport height in pindownloadr2.js!
