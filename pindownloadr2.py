@@ -44,7 +44,19 @@ def download_image(url, save_path='/tmp'):
 	r = requests.get(new_url, headers=http_request_header)
 
 	i = Image.open(StringIO(r.content))
-	i.save(os.path.join(save_path, image_name))
+
+	# We need to do this because the image extension says us all
+	# images are JPEG but some images are GIF, PNG, ...
+	if (i.format == "JPEG"):
+		i.save(os.path.join(save_path, image_name))
+	elif (i.format == "GIF"):
+		image_name = image_name.replace(".jpg", ".gif")
+		i.save(os.path.join(save_path, image_name))
+	elif (i.format == "PNG"):
+		image_name = image_name.replace(".jpg", ".png")
+		i.save(os.path.join(save_path, image_name))
+	else:
+		print("Skipping " + new_url + ". Unknown format!")
 
 def casperjs_output_as_list(url):
 	'''
@@ -83,7 +95,7 @@ if __name__ == "__main__":
 		save_path_tmp=args.save_path[0]
 	else:
 		save_path_tmp='/tmp'
-	
+
 	# Generate path for pictures
 	save_path = generate_save_path(save_path_tmp, board_url)
 
@@ -103,4 +115,7 @@ if __name__ == "__main__":
 	# Now fetch original images
 	for image_link in casper_links:
 		# TODO: skip images that don't contain /236x/ in url
-		download_image(image_link, save_path)
+		if "/236x" in image_link:
+			download_image(image_link, save_path)
+		else:
+			print("Skipping URL: " + image_link)
