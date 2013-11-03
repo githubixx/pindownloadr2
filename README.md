@@ -37,6 +37,9 @@ Test if casperjs is in path and is executable: casperjs --version
 Copy pindownloadr2.js and pindownloadr2.py to e.g. /usr/local/bin/
 
 ## Usage example
-python pindownloadr2.py --url /hinterbrandner/winter/ --path=/opt/pinterest
-
+>> python pindownloadr2.py --url /hinterbrandner/winter/ --path=/opt/pinterest
 This will create a directory "/opt/pinterest/hinterbrandner/winter/" where the pictures will be saved.
+
+>> python pindownloadr2.py --update /opt/pinterest/hinterbrandner/winter/ 
+This will download only all new images since last download. In this case the pinterest user is "hinterbrandner" and the board is "winter". So for update it is important that /user/board/ are the last two parts of the update path since pindownloadr2 will create the download url from the update path!
+
