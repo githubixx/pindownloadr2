@@ -90,7 +90,8 @@ def casperjs_output_as_list(uri, loginname, loginpw, cookiepath):
 
     _urls = []
 
-    _p = sp.Popen(["casperjs", "--engine=slimerjs", "/usr/local/bin/pindownloadr2.js", "--uri="+uri,
+    _p = sp.Popen(["casperjs", "--engine=slimerjs", "--load-images=no",
+                   "/usr/local/bin/pindownloadr2.js", "--uri="+uri,
                    "--loginname="+loginname, "--loginpw="+loginpw, "--cookiefile="+cookiepath],
                    stdin=sp.PIPE, stdout=sp.PIPE, close_fds=True)
     _output = _p.stdout.readlines()
