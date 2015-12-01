@@ -27,7 +27,7 @@ Now you can start downloading e.g.:
     
 **--rm** deletes the Docker container after execution<br />
 **--name=test** just a temp. name for the container<br />
-**-v /tmp/images:/opt/images** Inside the container the images are stored in /opt/images. But this directory is "inside" the container. So in this case we basically say Docker to store the pictures on the host in /tmp/images instead of /opt/images inside the container. So after the download you'll find the images under /tmp/images.<br />
+**-v /tmp/images:/opt/images** Inside the container the images are stored in /opt/images. But this directory is "inside" the container. So in this case we basically say Docker to store the pictures on the host in /tmp/images instead of /opt/images inside the container. So after the download you'll find the images in /tmp/images/.<br />
 **pindownloadr2:latest** is the name of the image we created when we started the build above. <br />
 **--uri=** here you supply the path you want to download. In the example above it's /misssabine/wedding-the-flowers/ (the original URL was https://www.pinterest.com/misssabine/wedding-the-flowers/ and we only need the URI).
 
