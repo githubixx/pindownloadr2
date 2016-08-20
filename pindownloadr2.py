@@ -85,14 +85,14 @@ def download_image(url, download_dir='/tmp'):
     del r
 
 
-def casperjs_output_as_list(uri, loginname, loginpw, cookiepath):
+def casperjs_output_as_list(uri, loginname, loginpw):
     """Read CasperJS output and add every line it to a python list."""
 
     _urls = []
 
-    _p = sp.Popen(["casperjs", "--engine=slimerjs", "--load-images=no",
+    _p = sp.Popen(["casperjs", "--engine=slimerjs", "--load-images=false",
                    "/usr/local/bin/pindownloadr2.js", "--uri="+uri,
-                   "--loginname="+loginname, "--loginpw="+loginpw, "--cookiefile="+cookiepath],
+                   "--loginname="+loginname, "--loginpw="+loginpw],
                    stdin=sp.PIPE, stdout=sp.PIPE, close_fds=True)
     _output = _p.stdout.readlines()
 
@@ -146,10 +146,8 @@ if __name__ == "__main__":
     # Config file
     if args.config is not None:
         config_file = os.path.join(args.config, '.pindownloadr/config')
-        cookiepath = os.path.join(args.config, '.pindownloadr/cookie')
     else:
         config_file = os.path.join(expanduser("~"), '.pindownloadr/config')
-        cookiepath = os.path.join(expanduser("~"), '.pindownloadr/cookie')
 
     # Load config
     config = cp.ConfigParser()
@@ -168,7 +166,7 @@ if __name__ == "__main__":
     print("")
 
     # Read links from CasperJS output
-    casperjs_links = casperjs_output_as_list(uri, loginname, loginpw, cookiepath)
+    casperjs_links = casperjs_output_as_list(uri, loginname, loginpw)
 
     # Any pins (maybe board deleted...)?
     if len(casperjs_links) < 2:
