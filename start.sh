@@ -9,6 +9,8 @@ fi;
 /usr/bin/Xvfb :99 -ac -screen 0 $RESOLUTION 1>/dev/null 2>&1 &
 export DISPLAY=:99.0
 
+cd /usr/local/bin
+
 # Path to save images will always be overriden in container to ensure
 # consistent path for Docker host mount.
 pindownloadr2.py $* --path=/opt/images
