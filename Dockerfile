@@ -1,4 +1,4 @@
-FROM    ubuntu:14.04
+FROM ubuntu:16.04
 
 MAINTAINER Robert Wimmer <docker@tauceti.net>
 
@@ -14,7 +14,7 @@ RUN mkdir /home/pdown/.pindownloadr
 RUN chown pdown.pdown /home/pdown/.pindownloadr
 
 # Install packages
-RUN apt-get install -y build-essential g++ flex bison gperf ruby perl libsqlite3-dev libfontconfig1-dev libicu-dev libfreetype6 libssl-dev libpng-dev libjpeg-dev python libx11-dev libxext-dev python-pip git wget unzip libc6 libstdc++6 libgcc1 libgtk2.0-0 libasound2 libxrender1 xvfb libdbus-glib-1.2
+RUN apt-get install -y build-essential g++ flex bison gperf ruby perl libsqlite3-dev libfontconfig1-dev libicu-dev libfreetype6 libssl-dev libpng-dev libjpeg-dev python libx11-dev libxext-dev python3-pip git wget unzip libc6 libstdc++6 libgcc1 libgtk-3-common libasound2 libxrender1 xvfb libdbus-glib-1.2
 
 # Locale
 RUN locale-gen en_US.UTF-8
@@ -22,24 +22,31 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# Install CasperJS
-RUN mkdir -p /opt/casperjs; \
-    cd /opt/casperjs; \
-    wget -O /opt/casperjs/1.1-beta3.zip https://github.com/n1k0/casperjs/archive/1.1-beta3.zip; \
-    unzip 1.1-beta3.zip; \
-    chmod 755 /opt/casperjs/casperjs-1.1-beta3/bin/casperjs; \
-    ln -s /opt/casperjs/casperjs-1.1-beta3/bin/casperjs /usr/local/bin/casperjs
+# Get jquery
+RUN wget -O /usr/local/bin/jquery-3.1.0.min.js https://code.jquery.com/jquery-3.1.0.min.js
+
+# Install Firefox - we need Firefox <= 46 because it's the latest supported by SlimerJS
+RUN cd /opt/; \
+    wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/46.0.1/linux-x86_64/en-US/firefox-46.0.1.tar.bz2 ; \
+    tar xvfj firefox-46.0.1.tar.bz2; \
+    ln -s /opt/firefox/firefox /usr/local/bin/firefox
 
 # Install SlimerJS
-RUN mkdir -p /opt/slimerjs; \
-    cd /opt/slimerjs; \
-    wget -O /opt/slimerjs/slimerjs-0.9.6-linux-x86_64.tar.bz2 http://download.slimerjs.org/releases/0.9.6/slimerjs-0.9.6-linux-x86_64.tar.bz2; \
-    tar xvfj slimerjs-0.9.6-linux-x86_64.tar.bz2; \
-    chmod 755 /opt/slimerjs/slimerjs-0.9.6/slimerjs; \
-    ln -s /opt/slimerjs/slimerjs-0.9.6/slimerjs /usr/local/bin/slimerjs
+RUN cd /opt; \
+    wget -O /opt/slimerjs-0.10.0.zip http://download.slimerjs.org/releases/0.10.0/slimerjs-0.10.0.zip; \
+    unzip slimerjs-0.10.0.zip; \
+    chmod 755 /opt/slimerjs-0.10.0/slimerjs; \
+    ln -s /opt/slimerjs-0.10.0/slimerjs /usr/local/bin/slimerjs
+
+# Install CasperJS
+RUN cd /opt; \
+    wget -O /opt/casperjs-1.1-3.zip https://github.com/casperjs/casperjs/archive/1.1.3.zip; \
+    unzip casperjs-1.1-3.zip; \
+    chmod 755 /opt/casperjs-1.1.3/bin/casperjs; \
+    ln -s /opt/casperjs-1.1.3/bin/casperjs /usr/local/bin/casperjs
 
 # Install python reqests module 
-RUN pip install requests
+RUN pip3 install --upgrade requests
 
 # Copy pindownloadr2 files to container. Do not forget to adjust the "config" file!
 ADD pindownloadr2.js /usr/local/bin/pindownloadr2.js
