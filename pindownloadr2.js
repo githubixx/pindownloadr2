@@ -178,7 +178,7 @@ casper.thenEvaluate(function() {
       pTimerCounter++;
 
     }
-  }, 3000);  // use high values like 6000 ms to wait for next page
+  }, 6000);  // use high values like 6000 ms to wait for next page
              // to reduce possibility that fetching images stops to early.
              // This value depends on your wire speed and the response time
              // from pinterest.com.
