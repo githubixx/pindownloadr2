@@ -2,7 +2,7 @@
 
 **Be carefull with this script! Since you login with your account Pinterest may lock your account if you download to much images at once! You've been warned...**
 
-This script let's you download the big pictures from pinterest.com. The easiest way to use this script is via Docker because of the dependencies. If you do not want use Docker look at the **Dockerfile** file. You can use all the instructions with Ubuntu 14.04 since the container runs with Ubuntu 14.04. 
+This script let's you download the big pictures from pinterest.com. The easiest way to use this script is via Docker because of the dependencies. If you do not want use Docker look at the **Dockerfile** file. You can use all the instructions with Ubuntu 16.04 since the container runs with Ubuntu 16.04 (should work with Ubuntu 14.04 too).
 
 First clone the Git repository:
 
