@@ -45,7 +45,7 @@ RUN cd /opt; \
     chmod 755 /opt/casperjs-1.1.3/bin/casperjs; \
     ln -s /opt/casperjs-1.1.3/bin/casperjs /usr/local/bin/casperjs
 
-# Install python reqests module 
+# Install python requests module 
 RUN pip3 install --upgrade requests
 
 # Copy pindownloadr2 files to container. Do not forget to adjust the "config" file!
