@@ -21,11 +21,13 @@ Replace **your@email.com** with your Pinterest login name and **your_super_secre
 Now you can start downloading e.g.:
     
     docker run --rm \
+               -t \
                --name=test \
                -v /tmp/images:/opt/images \
                pindownloadr2:latest --uri=/misssabine/wedding-the-flowers/
     
 **--rm** deletes the Docker container after execution<br />
+**-t** avoids caching of containter output (e.g. see log messages immediately)<br />
 **--name=test** just a temp. name for the container<br />
 **-v /tmp/images:/opt/images** Inside the container the images are stored in /opt/images. But this directory is "inside" the container. So in this case we basically say Docker to store the pictures on the host in /tmp/images instead of /opt/images inside the container. So after the download you'll find the images in /tmp/images/.<br />
 **pindownloadr2:latest** is the name of the image we created when we started the build above. <br />
