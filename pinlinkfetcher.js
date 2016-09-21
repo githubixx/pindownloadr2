@@ -1,4 +1,9 @@
 //
+// FYI: This code just works somehow ;-) Definitely not a good example of
+//      good style or whatever... Basically no error handling!
+//
+
+//
 // Imports
 //
 var fs = require('fs');
@@ -9,12 +14,12 @@ var fs = require('fs');
 //
 var log_level = 'error';
 var verbose = false;
-var viewport_width = 1280;
-var viewport_height = 960;
+var viewport_width = 1920;
+var viewport_height = 1280;
 var login_url = 'https://www.pinterest.com/login/';
 var user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0';
 
-var uri = '';
+var url = '';
 var loginname = '';
 var loginpw = '';
 var timeout = 6000;
@@ -54,33 +59,34 @@ if(casper.cli.has("debug_output")) {
 
 
 //
-// At least we need a URI, Pinterest login name and password
+// At least we need a URL, Pinterest login name and password
 //
 if (Object.keys(casper.cli.options).length < 3) {
   casper.echo("Need more options!");
   casper.echo("");
-  casper.echo("Example : casperjs pindownloadr2.js --uri=uri                              [required, e.g. /jaymenicoleh/future-home/]");
-  casper.echo("                                    --loginname=loginname                  [required]");
-  casper.echo("                                    --loginpw=loginpassword                [required]");
+  casper.echo("Example : casperjs pinlinkfetcher.js --url=url                              [required, e.g. /jaymenicoleh/future-home/]");
+  casper.echo("                                     --loginname=loginname                  [required]");
+  casper.echo("                                     --loginpw=loginpassword                [required]");
   casper.echo("");
   casper.echo("INFO: Does not work with Facebook login!");
   casper.echo("");
   casper.exit();
 }
 
-//
 // Set the useragent we use to connect to pinterest.com.
-//
 casper.userAgent(user_agent);
+
+// Increase timeout for wait* functions
+casper.options.waitTimeout = 20000;
 
 
 //
 // Get CLI options
 //
-if(casper.cli.has("uri")) {
-  var uri = casper.cli.get("uri");
+if(casper.cli.has("url")) {
+  var url = casper.cli.get("url");
 } else {
-  casper.echo("Missing path to board (--uri)!");
+  casper.echo("Missing path to board (--url)!");
   casper.exit();
 }
 
@@ -103,31 +109,31 @@ if(casper.cli.has("loginpw")) {
 casper.start(login_url, function() {
   // Fill form with username and password.
   this.fill('body > div.App.AppBase.Module.content_only > div.appContent > div.mainContainer > div > div > div > form', {
-      username_or_email: loginname,
-      password: loginpw
+    username_or_email: loginname,
+    password: loginpw
   }, true);
 });
 
 
 // After login we get redirected to homepage.
 // Wait until homepage is loaded before execute next step.
-casper.waitForText("Invite", function() {
+casper.waitForText("UserNavigateButton", function() {
   //this.echo('pinterest homepage loaded!');
 });
 
 // Load the board we want to download.
-casper.thenOpen('https://www.pinterest.com' + uri, function() {
+casper.thenOpen('https://www.pinterest.com' + url, function() {
   //var html = this.getHTML();
 });
 
 // Wait until the board is loaded.
-casper.waitForUrl(uri, function() {
+casper.waitForUrl(url, function() {
   //this.echo('Final page loaded!');
 });
 
 // We need jquery for further processing.
 casper.then(function () {
-    this.page.injectJs('jquery-3.1.0.min.js');
+  this.page.injectJs('jquery-3.1.0.min.js');
 });
 
 // Finally grab the picture URLs.
@@ -149,7 +155,7 @@ casper.thenEvaluate(function() {
     var pUrls = $('.pinImageWrapper');
     var pDescriptions = $('.pinImg');
     var pBoard = $('.creditTitle');
-    var pBoardUri = $('.creditItem > a');
+    var pBoardUrl = $('.creditItem > a');
 
     pLength = parseInt($('.padItems').css('height').replace('px', ''));
 
@@ -163,7 +169,7 @@ casper.thenEvaluate(function() {
         pPin['board'] = $(pBoard[i]).text();
         pPin['description'] = $(pDescriptions[i]).attr('alt');
         pPin['pin_thumbnail'] = $(pDescriptions[i]).attr('src');
-        pPin['pin_board_uri'] = $(pBoardUri[i]).attr('href');
+        pPin['pin_board_url'] = $(pBoardUrl[i]).attr('href');
 
         // search if pin already pushed
         if (!(pPin['pin_page'] in pPinsIndexes)) {
@@ -185,21 +191,22 @@ casper.thenEvaluate(function() {
 });
 
 casper.waitFor(function() {
-    return this.getGlobal('done') === 1;
-    }, function() {
+  return this.getGlobal('done') === 1;
+  }, function() {
 
-        pins = this.getGlobal('data');
-        board = new Array();
+    pins = this.getGlobal('data');
+    board = new Array();
 
-        pins_count = pins.length;
-        for (var i = 0; i < pins_count; i++) {
-            pin = pins[i];
-	        this.echo(pin['pin_thumbnail']);
-        }
+    pins_count = pins.length;
+    for (var i = 0; i < pins_count; i++) {
+      pin = pins[i];
+      this.echo(pin['pin_thumbnail']);
+    }
 
-    this.exit();
-    }, function timeout() {
+  this.exit();
 
+  }, function timeout() {
 }, 1800000); // allow timeout of 30 minutes to execute the script...
 
 casper.run();
+

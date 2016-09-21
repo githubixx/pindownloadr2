@@ -2,37 +2,34 @@
 
 **Be carefull with this script! Since you login with your account Pinterest may lock your account if you download to much images at once! You've been warned...**
 
-This script let's you download the big pictures from pinterest.com. The easiest way to use this script is via Docker because of the dependencies. If you do not want use Docker look at the **Dockerfile** file. You can use all the instructions with Ubuntu 16.04 since the container runs with Ubuntu 16.04 (should work with Ubuntu 14.04 too).
+This script let's you download the big pictures from pinterest.com. The easiest way to use this script is via Docker and Docker Compose because of the dependencies. If you do not want to use Docker look at the **Dockerfile** files. You can use all the instructions with a plain Ubuntu 16.04 installation since the container runs with Ubuntu 16.04. The Python scripts need Python 3.
 
 First clone the Git repository:
 
     git clone https://github.com/githubixx/pindownloadr2 
     cd pindownloadr2
 
-Edit the **config** file:
+Make sure you have [Docker](https://www.docker.io) >= 1.10.0 and [Docker Compose](https://docs.docker.com/compose/install/) >= 1.6.0 installed. Open the **docker-compose.yml** file if you want to change the build settings but it should work with the default values. 
 
-    loginname: your@email.com
-    loginpw: your_super_secret_password
+To build the two container needed just use the following command:
 
-Replace **your@email.com** with your Pinterest login name and **your_super_secret_password** with your login password. Save the file.  Build the Docker image e.g. (do NOT forget the **.** at the end!):
+    docker-compose build
 
-    docker build -t pindownloadr2:latest .
-    
-Now you can start downloading e.g.:
-    
-    docker run --rm \
-               -t \
-               --name=test \
-               -v /tmp/images:/opt/images \
-               pindownloadr2:latest --uri=/misssabine/wedding-the-flowers/
-    
-**--rm** deletes the Docker container after execution<br />
-**-t** avoids caching of containter output (e.g. see log messages immediately)<br />
-**--name=test** just a temp. name for the container<br />
-**-v /tmp/images:/opt/images** Inside the container the images are stored in /opt/images. But this directory is "inside" the container. So in this case we basically say Docker to store the pictures on the host in /tmp/images instead of /opt/images inside the container. So after the download you'll find the images in /tmp/images/.<br />
-**pindownloadr2:latest** is the name of the image we created when we started the build above. <br />
-**--uri=** here you supply the path you want to download. In the example above it's /misssabine/wedding-the-flowers/ (the original URL was https://www.pinterest.com/misssabine/wedding-the-flowers/ and we only need the URI).
+To start the **pinlinkfetcher** container run:
 
-In the example above after the download of the images you'll find the images in **/tmp/images/misssabine/wedding-the-flowers/**. If you start the download with the same arguments again the script will only download images not already stored in **/tmp/images/misssabine/wedding-the-flowers/**.
+    docker-compose up -d
 
-Be aware that the download speed mainly depends on your wire speed.
+This daemon fetches the image URLs but don't download the images. This is the job of **pindownloadr**. You can start downloading using the **pindownloadr** container:
+
+    docker-compose run --rm pindownloadr --cshost localhost:9090 --loginname <your_login_mail_address> --loginpw <your_login_password> --uri <username/board>
+
+If you run pindownloadr container the images will be stored in **/tmp/<user>/<board>**. But since the container will be delete after it's finished and /tmp is "inside" the container in this case you won't see any downloaded images. To avoid this the **docker-compose.yml** includes a volume parameter. Adjust the **docker-compose.yml** **volume** setting accordingly if you like. If you don't change the setting the pictures will be stored in **/tmp/<user>/<board>**.  E.g. if the specified URI was **--uri misssabine/wedding-the-flowers** the images will be stored in **/tmp/misssabine/wedding-the-flowers/**. The script will only download images not already stored in the directory.
+
+**--cshost** The CasperJS host. In **docker-compose.yml** a container **pinlinkfetcher** is defined. Per default it listens on **localhost:9090**. That's the IP:PORT you need to specify here. It only extracts the image url's but doesn't download the images.
+**--loginname** Your Pinterest login name or login email (does NOT work with Facebook/Twitter login!).
+**--loginpw** Your Pinterest password.
+**--uri** The board you want to download. E.g. if the original URL is https://www.pinterest.com/misssabine/wedding-the-flowers/ the value of the --uri parameter would be **misssabine/wedding-the-flowers** (no / at the beginning and the end!).
+
+Be aware that the download speed depends on your wire speed. Since the script needs to "scroll" through all pages (it uses SlimerJS to emulate a real Firefox browser) and needs to wait until every page is loaded extracting the image URL's takes time. The more pins a board has the longer it takes to extract all image URL's.
+
+The scripts are also do very little error handling. Simply to lazy to implement :-) 
