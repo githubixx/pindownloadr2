@@ -18,3 +18,16 @@ services:
     network_mode: host
     volumes:
       - /tmp:/tmp
+
+  pinmyboards:
+    build:
+      context: .
+      dockerfile: Dockerfile.pinmyboards
+    image: pinmyboards:0.5
+    container_name: pinmyboards
+    network_mode: host
+    environment:
+      USERNAME: your-username
+      LOGINNAME: your-loginname
+      LOGINPW: your-password
+
