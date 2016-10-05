@@ -68,10 +68,13 @@ def download_image(url, download_dir='/tmp'):
 
   print("Downloading: " + image_path)
 
-  r = requests.get(originals_url, headers=http_request_header, stream=True)
-  with open(image_path, 'wb') as out_file:
-    shutil.copyfileobj(r.raw, out_file)
-  del r
+  try:
+    r = requests.get(originals_url, headers=http_request_header, stream=True)
+    with open(image_path, 'wb') as out_file:
+      shutil.copyfileobj(r.raw, out_file)
+    del r
+  except SSLError:
+    pass
 
 
 def get_image_urls(host, loginname, loginpw, uri):
