@@ -3,9 +3,15 @@ FROM ubuntu:16.04
 MAINTAINER Robert Wimmer <docker@tauceti.net>
 
 # Update repository and install packages
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y python3 python3-pip && \
-    pip3 install requests
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+      python3 \
+      python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Python requests module
+RUN pip3 install requests
 
 # Add a group/user used to execute pinlinkfetcher
 RUN groupadd -g 1000 pdown; \
@@ -18,7 +24,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Copy files to container.
-ADD pindownloadr2.py /usr/local/bin/pindownloadr2.py
+COPY pindownloadr2.py /usr/local/bin/pindownloadr2.py
 
 # Set $HOME since Docker defaults to / as $HOME directory for all users 
 ENV HOME /home/pdown 
@@ -26,7 +32,7 @@ ENV HOME /home/pdown
 # Work as pdown user from now on
 USER pdown
 
-RUN cd /home/pdown
+WORKDIR /home/pdown
 
 ENTRYPOINT ["/usr/local/bin/pindownloadr2.py"]
 CMD ["-h"]
