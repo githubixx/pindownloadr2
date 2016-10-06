@@ -66,15 +66,15 @@ def download_image(url, download_dir='/tmp'):
     print("Skipping " + image_path + ". File exists!")
     return
 
-  print("Downloading: " + image_path)
-
   try:
     r = requests.get(originals_url, headers=http_request_header, stream=True)
+    print("Downloaded :" + image_path)
+  except:
+    print("Error while downloading: " + image_path)
+  else:
     with open(image_path, 'wb') as out_file:
       shutil.copyfileobj(r.raw, out_file)
     del r
-  except SSLError:
-    pass
 
 
 def get_image_urls(host, loginname, loginpw, uri):
