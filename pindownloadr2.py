@@ -3,6 +3,10 @@
 """
 FYI: This code just works somehow ;-) Definitely not a good example of
      good style or whatever... Only bare minimum error handling!
+
+     This code was developed with Python 3.5 and I don't care about 
+     Python 2.7 since it is intended to run inside a container where
+     we can use whatever Python version we want.
 """
 
 import requests
@@ -68,13 +72,12 @@ def download_image(url, download_dir='/tmp'):
 
   try:
     r = requests.get(originals_url, headers=http_request_header, stream=True)
-    print("Downloaded :" + image_path)
-  except:
-    print("Error while downloading: " + image_path)
-  else:
     with open(image_path, 'wb') as out_file:
       shutil.copyfileobj(r.raw, out_file)
+    print("Downloaded :" + image_path)
     del r
+  except:
+    print("Error while downloading: " + image_path + " (skipping image...)")
 
 
 def get_image_urls(host, loginname, loginpw, uri):
