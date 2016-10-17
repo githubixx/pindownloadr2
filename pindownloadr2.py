@@ -65,7 +65,7 @@ def download_image(url, download_dir='/tmp'):
   originals_url = url.replace("474x", "originals").replace("236x", "originals")
 
   # Check if image already exists
-  image_path = download_dir + "/" + image_name
+  image_path = os.path.join(os.path.sep, download_dir, image_name)
   if os.path.exists(image_path):
     print("Skipping " + image_path + ". File exists!")
     return
@@ -135,16 +135,17 @@ if __name__ == "__main__":
 
   # Uri
   if args.uri is not None:
-    uri = args.uri
+    uri = args.uri.strip("/")
   else:
     print("No URI provided!")
     sys.exit(1)
   
   # Where to store pictures?
   if args.path is not None:
-    download_dir = args.path + "/" + uri
+    _path = args.path.strip("/")
+    download_dir = os.path.join(os.path.sep, _path, uri)
   else:
-    download_dir = "/tmp/" + uri
+    download_dir = os.path.join(os.path.sep, "tmp", uri)
 
   print("")
   print("Fetching image links... This could take some time!")
