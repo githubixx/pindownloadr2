@@ -17,7 +17,7 @@ var verbose = false;
 var viewport_width = 1920;
 var viewport_height = 1280;
 var login_url = 'https://www.pinterest.com/login/';
-var user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0';
+var user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0';
 
 var url = '';
 var loginname = '';
