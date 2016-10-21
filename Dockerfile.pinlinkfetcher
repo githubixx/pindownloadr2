@@ -30,7 +30,7 @@ ENV LC_ALL en_US.UTF-8
 
 # Install Firefox - we need Firefox <= 49 because it's the latest supported version by SlimerJS
 RUN cd /opt/ && \
-    wget --no-check-certificate https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
+    wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
     tar xvfj firefox-$FIREFOX_VERSION.tar.bz2 && \
     ln -s /opt/firefox/firefox /usr/local/bin/firefox && \
     rm firefox-$FIREFOX_VERSION.tar.bz2
@@ -45,7 +45,7 @@ RUN cd /opt && \
 
 # Install CasperJS
 RUN cd /opt && \
-    wget --no-check-certificate -O /opt/casperjs-$CASPERJS_VERSION.zip https://github.com/casperjs/casperjs/archive/$CASPERJS_VERSION.zip && \
+    wget -O /opt/casperjs-$CASPERJS_VERSION.zip https://github.com/casperjs/casperjs/archive/$CASPERJS_VERSION.zip && \
     unzip casperjs-$CASPERJS_VERSION.zip && \
     chmod 755 /opt/casperjs-$CASPERJS_VERSION/bin/casperjs && \
     ln -s /opt/casperjs-$CASPERJS_VERSION/bin/casperjs /usr/local/bin/casperjs && \
@@ -69,7 +69,7 @@ RUN /bin/bash -c "cd /home/pdown/pinlinkfetcher; \
                   pip3 install -r requirements.txt"
 
 RUN mkdir -p /home/pdown/pinlinkfetcher/app
-RUN wget --no-check-certificate -O /home/pdown/pinlinkfetcher/app/jquery-$JQUERY_VERSION.min.js https://code.jquery.com/jquery-$JQUERY_VERSION.min.js
+RUN wget -O /home/pdown/pinlinkfetcher/app/jquery-$JQUERY_VERSION.min.js https://code.jquery.com/jquery-$JQUERY_VERSION.min.js
 
 ADD config.py /home/pdown/pinlinkfetcher/app/config.py
 ADD pinlinkfetcher.py /home/pdown/pinlinkfetcher/app/pinlinkfetcher.py
