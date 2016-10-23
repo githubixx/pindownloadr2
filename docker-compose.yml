@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.pinlinkfetcher
-    image: pinlinkfetcher:2.7
+    image: pinlinkfetcher:latest
     container_name: pinlinkfetcher
     network_mode: host
     restart: always
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.pindownloadr2
-    image: pindownloadr:2.9
+    image: pindownloadr:latest
     container_name: pindownloadr
     network_mode: host
     volumes:
@@ -23,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.pinmyboards
-    image: pinmyboards:0.5
+    image: pinmyboards:latest
     container_name: pinmyboards
     network_mode: host
     environment:
