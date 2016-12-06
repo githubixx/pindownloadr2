@@ -28,7 +28,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# Install Firefox - we need Firefox <= 49 because it's the latest supported version by SlimerJS
+# Install Firefox - we need Firefox <= 50 because it's the latest supported version by SlimerJS
 RUN cd /opt/ && \
     wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
     tar xvfj firefox-$FIREFOX_VERSION.tar.bz2 && \
