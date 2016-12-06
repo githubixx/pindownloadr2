@@ -108,8 +108,8 @@ if(casper.cli.has("loginpw")) {
 // Login
 casper.start(login_url, function() {
   // Fill form with username and password.
-  this.fill('body > div.App.AppBase.Module.content_only > div.appContent > div.mainContainer > div > div > div > form', {
-    username_or_email: loginname,
+  this.fill('.DenzelReactBridge > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > form:nth-child(2)', {
+    id: loginname,
     password: loginpw
   }, true);
 });
