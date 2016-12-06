@@ -115,6 +115,8 @@ if __name__ == "__main__":
   # CasperJS host
   if args.host is not None:
     host = args.host
+  elif os.environ['CSHOST'] is not None:
+    host = os.environ['CSHOST']
   else:
     print("No CasperJS host provided!")
     sys.exit(1)
@@ -122,6 +124,8 @@ if __name__ == "__main__":
   # Login name
   if args.loginname is not None:
     loginname = args.loginname
+  elif os.environ['LOGINNAME'] is not None:
+    loginname = os.environ['LOGINNAME']
   else:
     print("Loginname missing!")
     sys.exit(1)
@@ -129,6 +133,8 @@ if __name__ == "__main__":
   # Login password
   if args.loginpw is not None:
     loginpw = args.loginpw
+  elif os.environ['LOGINPW'] is not None:
+    loginpw = os.environ['LOGINPW']
   else:
     print("Login password missing!")
     sys.exit(1)
@@ -136,6 +142,8 @@ if __name__ == "__main__":
   # Uri
   if args.uri is not None:
     uri = args.uri.strip("/")
+  elif os.environ['URI'] is not None:
+    uri = os.environ['URI'].strip("/")
   else:
     print("No URI provided!")
     sys.exit(1)
