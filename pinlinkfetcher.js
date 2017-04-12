@@ -7,6 +7,7 @@
 // Imports
 //
 var fs = require('fs');
+var utils = require('clientutils');
 
 
 //
@@ -133,7 +134,7 @@ casper.waitForUrl(url, function() {
 
 // We need jquery for further processing.
 casper.then(function () {
-  this.page.injectJs('jquery-3.1.0.min.js');
+  this.page.injectJs('jquery-3.2.1.min.js');
 });
 
 // Finally grab the picture URLs.
@@ -151,30 +152,24 @@ casper.thenEvaluate(function() {
   window.data = new Array();
 
   var pTimer = window.setInterval(function() {
-      
-    var pUrls = $('.pinImageWrapper');
-    var pDescriptions = $('.pinImg');
-    var pBoard = $('.creditTitle');
-    var pBoardUrl = $('.creditItem > a');
+ 
+    var pUrls = $('._32.block.col-12.absolute');
 
-    pLength = parseInt($('.padItems').css('height').replace('px', ''));
-
+    pLength = parseInt($('._45.relative').css('height').replace('px', ''));
+	  
     if (pLength == pLastCount) {
       window.clearInterval(pTimer);
       window.done = 1;
     } else {
       for ( var i=0 ; i < pUrls.length ; i++) {
         var pPin = {};
-        pPin['pin_page'] = 'http://www.pinterest.com'+$(pUrls[i]).attr('href');
-        pPin['board'] = $(pBoard[i]).text();
-        pPin['description'] = $(pDescriptions[i]).attr('alt');
-        pPin['pin_thumbnail'] = $(pDescriptions[i]).attr('src');
-        pPin['pin_board_url'] = $(pBoardUrl[i]).attr('href');
+        pPin['pin_thumbnail'] = $(pUrls[i]).attr('src');
+        //__utils__.echo(pPin['pin_thumbnail']);
 
         // search if pin already pushed
-        if (!(pPin['pin_page'] in pPinsIndexes)) {
+        if (!(pPin['pin_thumbnail'] in pPinsIndexes)) {
           window.data.push(pPin); 
-          pPinsIndexes[pPin['pin_page']] = '';
+          pPinsIndexes[pPin['pin_thumbnail']] = '';
         }
       }
 
