@@ -4,10 +4,10 @@ MAINTAINER Robert Wimmer <docker@tauceti.net>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV FIREFOX_VERSION 50.0.2
-ENV SLIMERJS_VERSION 0.10.2
-ENV CASPERJS_VERSION 1.1.3
-ENV JQUERY_VERSION 3.1.0
+ENV FIREFOX_VERSION 52.0.2
+ENV SLIMERJS_VERSION 0.10.3
+ENV CASPERJS_VERSION 1.1.4
+ENV JQUERY_VERSION 3.2.1
 
 # Update repository and install packages
 RUN apt-get update && \
@@ -28,7 +28,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-# Install Firefox - we need Firefox <= 50 because it's the latest supported version by SlimerJS
+# Install Firefox - we need Firefox
 RUN cd /opt/ && \
     wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 && \
     tar xvfj firefox-$FIREFOX_VERSION.tar.bz2 && \
