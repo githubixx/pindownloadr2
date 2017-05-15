@@ -118,7 +118,7 @@ casper.start(login_url, function() {
 
 // After login we get redirected to homepage.
 // Wait until homepage is loaded before execute next step.
-casper.waitForText("UserNavigateButton", function() {
+casper.waitForText("unless", function() {
   //this.echo('pinterest homepage loaded!');
 });
 
