@@ -155,7 +155,7 @@ casper.thenEvaluate(function() {
  
     var pUrls = $('._35.block.col-12.absolute');
 
-    var pLength = parseInt($('._4b.relative').css('height').replace('px', ''));
+    var pLength = parseInt($('._4e.relative').css('height').replace('px', ''));
 	  
     if (pLength == pLastCount) {
       window.clearInterval(pTimer);
