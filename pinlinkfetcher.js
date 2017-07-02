@@ -118,8 +118,10 @@ casper.start(login_url, function() {
 
 // After login we get redirected to homepage.
 // Wait until homepage is loaded before execute next step.
-casper.waitForText("unless", function() {
-  //this.echo('pinterest homepage loaded!');
+// casper.waitForText("unless", function() {
+// casper.waitForUrl("^/$", function() {
+casper.wait(10000, function() {
+  this.echo('pinterest homepage loaded!');
 });
 
 // Load the board we want to download.
