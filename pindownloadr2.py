@@ -80,12 +80,12 @@ def download_image(url, download_dir='/tmp'):
     print("Error while downloading: " + image_path + " (skipping image...)")
 
 
-def get_image_urls(host, loginname, loginpw, uri):
+def get_image_urls(host, loginname, loginpw, country, uri):
   """Get image URLs from CasterJS service."""
 
   _urls = []
 
-  _casper_service_url = "http://" + host + "/pinlinkfetcher/" + loginname + "/" + loginpw + "/" + uri
+  _casper_service_url = "http://" + host + "/pinlinkfetcher/" + loginname + "/" + loginpw + "/" + country + "/" + uri
 
   _r = requests.get(_casper_service_url, headers=http_request_header)
   for _line in _r.iter_lines():
@@ -104,6 +104,7 @@ if __name__ == "__main__":
   ap.add_argument('--cshost', '-c', dest='host', help='The host where the CasperJS service listens e.g. localhost:9090 (do NOT add http:// just the host:port)')
   ap.add_argument('--loginname', '-n', dest='loginname', help='Your pinterest loginname (e-mail address)')
   ap.add_argument('--loginpw',   '-w', dest='loginpw',   help='Your pinterest login password')
+  ap.add_argument('--country',   '-y', dest='country',   help='Your pinterest country domain e.g com|de|...')
   ap.add_argument('--uri',       '-u', dest='uri',       help='The uri (e.g. https://www.pinterest.com/jaymenicoleh/future-home/ - \
                                                                jaymenicoleh/future-home is the one you need.')
   ap.add_argument('--path',      '-p', dest='path',      help='Directory to save the pictures. If directory /path/user/board/ \
@@ -139,6 +140,15 @@ if __name__ == "__main__":
     print("Login password missing!")
     sys.exit(1)
 
+  # Country domain
+  if args.country is not None:
+    country = args.country
+  elif os.environ['COUNTRY'] is not None:
+    country = os.environ['COUNTRY']
+  else:
+    print("Country domain is missing!")
+    sys.exit(1)
+
   # Uri
   if args.uri is not None:
     uri = args.uri.strip("/")
@@ -162,7 +172,7 @@ if __name__ == "__main__":
   print("")
 
   # Read links from CasperJS output
-  image_links = get_image_urls(host, loginname, loginpw, uri)
+  image_links = get_image_urls(host, loginname, loginpw, country, uri)
 
   # Any pins (maybe board deleted...)?
   if len(image_links) < 2:

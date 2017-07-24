@@ -12,7 +12,7 @@ ENV JQUERY_VERSION 3.2.1
 # Update repository and install packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --allow-change-held-packages perl-base build-essential g++ flex bison gperf ruby libsqlite3-dev libfontconfig1-dev libicu-dev libfreetype6 libssl-dev libpng-dev libjpeg-dev libx11-dev libxext-dev git wget unzip libc6 libstdc++6 libgcc1 libgtk-3-common libasound2 libxrender1 xvfb libdbus-glib-1.2 python3 python3-pip && \
+    apt-get install -y --allow-change-held-packages perl-base build-essential g++ flex bison gperf ruby libsqlite3-dev libfontconfig1-dev libicu-dev libfreetype6 libssl-dev libpng-dev libjpeg-dev libx11-dev libxext-dev git wget unzip libc6 libstdc++6 libgcc1 libgtk-3-common libasound2 libxrender1 xvfb libdbus-glib-1.2 python3 python3-pip locales && \
     rm -rf /var/lib/apt/lists/*
 
 # Add a group/user used to execute pinlinkfetcher

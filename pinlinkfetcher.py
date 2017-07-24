@@ -25,8 +25,8 @@ app.config.from_object(BaseConfig)
 #
 # Fetch image links via CasperJS
 #
-@app.route("/pinlinkfetcher/<string:loginname>/<string:loginpw>/<path:url>")
-def pinlinkfetcher(loginname, loginpw, url):
+@app.route("/pinlinkfetcher/<string:loginname>/<string:loginpw>/<string:country>/<path:url>")
+def pinlinkfetcher(loginname, loginpw, country, url):
 
   # Add a / at start and end of url if needed
   if not url.startswith("/"):
@@ -34,7 +34,7 @@ def pinlinkfetcher(loginname, loginpw, url):
   if not url.endswith("/"):
     url = url + "/"
 
-  casper_cmd = [BaseConfig.CASPERJS_BIN, '--engine=slimerjs', BaseConfig.PINLINKFETCHER_SCRIPT, '--url='+url, '--loginname='+loginname, '--loginpw='+loginpw]
+  casper_cmd = [BaseConfig.CASPERJS_BIN, '--engine=slimerjs', BaseConfig.PINLINKFETCHER_SCRIPT, '--url='+url, '--loginname='+loginname, '--loginpw='+loginpw, '--country='+country]
 
   try:
     output = subprocess.run(casper_cmd, stdout=subprocess.PIPE, universal_newlines=True)
