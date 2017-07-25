@@ -4,6 +4,8 @@
 
 This script let's you download the big pictures from pinterest.com. The easiest way to use this script is via Docker and Docker Compose because of the dependencies. If you do not want to use Docker look at the **Dockerfile** files. You can use all the instructions with a plain Ubuntu 16.04 installation since the container runs with Ubuntu 16.04. The Python scripts need Python 3.
 
+FYI: Pinterest changes it's site about 1-2 times a week which sometimes requires changes in the `pinlinkfetcher.js` file. So check back to my Github page if it doesn't work for you anymore. I try to keep up with the changes.
+
 First clone the Git repository:
 
 ```

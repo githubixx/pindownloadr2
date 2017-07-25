@@ -16,7 +16,7 @@ var utils = require('clientutils');
 // Some default variables
 //
 var log_level = 'error';
-var verbose = true;
+var verbose = false;
 var viewport_width = 1920;
 var viewport_height = 1280;
 var user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0';
@@ -171,11 +171,12 @@ casper.thenEvaluate(function() {
   window.pData = new Array();
 
   var pTimer = window.setInterval(function() {
- 
-    //var pUrls = $('._0._3a._2e._27');
-	  var pUrls = $('._m9._1x._3p._29');
 
-    var pLength = parseInt($('._tr._27').css('height').replace('px', ''));
+		// Select all images visible by class id
+	  var pUrls = $('._m9._1x._3m._29');
+
+		// Get CSS height property
+    var pLength = parseInt($('._tv._27').css('height').replace('px', ''));
 	  
     if (pLength == pLastCount) {
       window.clearInterval(pTimer);
@@ -199,7 +200,7 @@ casper.thenEvaluate(function() {
       pTimerCounter++;
 
     }
-  }, 6000);  // use high values like 6000 ms to wait for next page
+  }, 10000);  // use high values like 6000 ms to wait for next page
              // to reduce possibility that fetching images stops to early.
              // This value depends on your wire speed and the response time
              // from pinterest.com.
@@ -221,7 +222,7 @@ casper.waitFor(function() {
   this.exit();
 
   }, function timeout() {
-}, 1800000); // allow timeout of 30 minutes to execute the script...
+}, 3600000); // allow timeout of 30 minutes to execute the script...
 
 casper.run();
 
