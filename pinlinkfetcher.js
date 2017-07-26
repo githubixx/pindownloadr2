@@ -172,11 +172,11 @@ casper.thenEvaluate(function() {
 
   var pTimer = window.setInterval(function() {
 
-		// Select all images visible by class id
-	  var pUrls = $('._m9._1x._3m._29');
+    // Select all images visible by class id
+    var pUrls = $('_m9._3d._29._3p');
 
-		// Get CSS height property
-    var pLength = parseInt($('._tv._27').css('height').replace('px', ''));
+    // Get CSS height property
+    var pLength = parseInt($('._tx._3n').css('height').replace('px', ''));
 	  
     if (pLength == pLastCount) {
       window.clearInterval(pTimer);
