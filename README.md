@@ -1,6 +1,6 @@
 # pindownloadr2
 
-**FYI: This doesn't work currently! pinterest changed to much in the UI (e.g. using ReactJS now) and it looks like CasperJS/SlimerJS don't really work very well with ReactJS. See issue https://github.com/githubixx/pindownloadr2/issues/3. Check by from time to time. Maybe I can solve this problem - or maybe not ;-)
+**FYI: This doesn't work currently! pinterest changed to much in the UI (e.g. using ReactJS now) and it looks like CasperJS/SlimerJS don't work very well with ReactJS. See issue https://github.com/githubixx/pindownloadr2/issues/3. Check by from time to time. Maybe I can solve this problem - or maybe not ;-)**
 
 **Be carefull with this script! Since you login with your account Pinterest may lock your account if you download to much images at once! You've been warned...**
 
