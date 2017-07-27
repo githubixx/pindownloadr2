@@ -1,5 +1,7 @@
 # pindownloadr2
 
+**FYI: This doesn't work currently! pinterest changed to much in the UI (e.g. using ReactJS now) and it looks like CasperJS/SlimerJS don't really work very well with ReactJS. See issue https://github.com/githubixx/pindownloadr2/issues/3. Check by from time to time. Maybe I can solve this problem - or maybe not ;-)
+
 **Be carefull with this script! Since you login with your account Pinterest may lock your account if you download to much images at once! You've been warned...**
 
 This script let's you download the big pictures from pinterest.com. The easiest way to use this script is via Docker and Docker Compose because of the dependencies. If you do not want to use Docker look at the **Dockerfile** files. You can use all the instructions with a plain Ubuntu 16.04 installation since the container runs with Ubuntu 16.04. The Python scripts need Python 3.
