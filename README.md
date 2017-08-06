@@ -51,22 +51,3 @@ Be aware that the download speed depends on your wire speed. Since the script ne
 
 The scripts are also do very little error handling. Simply to lazy to implement :-) 
 
-[WORK IN PROGRESS!] If you want to generate a list of the boards you're following you can use the **pinmyboards** container. In the **docker-compose.yml** you just need to change a few values for the **pinmyboards** service:
-
-```
-environment:
-  USERNAME: your-username
-  LOGINNAME: your-loginname
-  LOGINPW: your-password
-```
-
-Replace the values accordingly. You can see your **USERNAME** when you open https://www.pinterest.com/settings/ in your browser. In the profile section you'll see your username. As with pindownloadr above **LOGINNAME** is your pinterest login and **LOGINPW** your password (again: does NOT work with Facebook/Twitter login!).
-
-After you changed the settings you just need to start the container:
-
-```
-docker-compose run pinmyboards
-```
-
-If the run is finished you get a list of the boards you're following.
-
