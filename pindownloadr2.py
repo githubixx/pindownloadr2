@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-FYI: This code just works somehow ;-) Definitely not a good example of
-     good style or whatever... Only bare minimum error handling!
-
-     This code was developed with Python 3.5 and I don't care about 
-     Python 2.7 since it is intended to run inside a container where
-     we can use whatever Python version we want.
-"""
-
 import requests
 import os
 import errno
