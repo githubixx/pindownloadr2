@@ -15,7 +15,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Copy files to container.
-COPY pindownloadr2.py /usr/local/bin/pindownloadr2.py
+ADD pindownloadr2.py /usr/local/bin/pindownloadr2.py
 
 # Set $HOME since Docker defaults to / as $HOME directory for all users 
 ENV HOME /home/pdown 
