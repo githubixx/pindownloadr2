@@ -71,19 +71,17 @@ def download_image(url, download_dir='/tmp'):
     print("Error while downloading: " + image_path + " (skipping image...)")
 
 
-def get_image_urls(host, loginname, loginpw, country, uri):
-  """Get image URLs from CasterJS service."""
+def get_image_urls(scraper, loginname, loginpw, country, uri):
+  """Get image URLs from scraper service."""
+  urls = []
 
-  _urls = []
+  pinlinkfetcherUrl = "http://" + scraper + "/pinlinkfetcher/loginname/" + loginname + "/loginpw/" + loginpw + "/countrydomain/" + country + "/board/" + uri
 
-  _casper_service_url = "http://" + host + "/pinlinkfetcher/" + loginname + "/" + loginpw + "/" + country + "/" + uri
+  response = requests.get(pinlinkfetcherUrl, headers=http_request_header)
+  for item in response.json():
+    urls.append(item['url'])
 
-  _r = requests.get(_casper_service_url, headers=http_request_header)
-  for _line in _r.iter_lines():
-    if _line:
-      _urls.append(_line)
-
-  return _urls
+  return urls
 
 #
 # Main
@@ -92,25 +90,25 @@ if __name__ == "__main__":
 
   # Parse commandline options
   ap = argparse.ArgumentParser(description="Fetch pinterest images. USE THIS SCRIPT CAREFULLY!")
-  ap.add_argument('--cshost', '-c', dest='host', help='The host where the CasperJS service listens e.g. localhost:9090 (do NOT add http:// just the host:port)')
+  ap.add_argument('--scraper',   '-s', dest='scraper',   help='The host where the scraper service listens e.g. localhost:3000 (do NOT add http:// just the host:port)')
   ap.add_argument('--loginname', '-n', dest='loginname', help='Your pinterest loginname (e-mail address)')
   ap.add_argument('--loginpw',   '-w', dest='loginpw',   help='Your pinterest login password')
   ap.add_argument('--country',   '-y', dest='country',   help='Your pinterest country domain e.g com|de|...')
   ap.add_argument('--uri',       '-u', dest='uri',       help='The uri (e.g. https://www.pinterest.com/jaymenicoleh/future-home/ - \
-                                                               jaymenicoleh/future-home is the one you need.')
+                                                               jaymenicoleh/future-home is the one you need).')
   ap.add_argument('--path',      '-p', dest='path',      help='Directory to save the pictures. If directory /path/user/board/ \
                                                                exists the script will only download pictures that does \
-                                                               not exist (which is basically "only get new pictures".')
+                                                               not exist (which is basically "only get new pictures").')
 
   args = ap.parse_args()
 
-  # CasperJS host
-  if args.host is not None:
-    host = args.host
-  elif os.environ['CSHOST'] is not None:
-    host = os.environ['CSHOST']
+  # Scraper host
+  if args.scraper is not None:
+    scraper = args.scraper
+  elif os.environ['SCRAPER'] is not None:
+    scraper = os.environ['SCRAPER']
   else:
-    print("No CasperJS host provided!")
+    print("No scraper host provided!")
     sys.exit(1)
 
   # Login name
@@ -162,12 +160,12 @@ if __name__ == "__main__":
   print("fast your Internet connection is.")
   print("")
 
-  # Read links from CasperJS output
-  image_links = get_image_urls(host, loginname, loginpw, country, uri)
+  # Fetch links
+  image_links = get_image_urls(scraper, loginname, loginpw, country, uri)
 
   # Any pins (maybe board deleted...)?
   if len(image_links) < 2:
-    print("Seems that this board was deleted or other problem! Output from CasperJS:")
+    print("Could not find any image links or maybe other problem occured!")
     print()
     print(image_links)
     print()
@@ -180,7 +178,7 @@ if __name__ == "__main__":
 
   # Now fetch original images
   for picture_url in image_links:
-    _picture_url_str = unquote(picture_url.decode()).strip()
+    _picture_url_str = picture_url.strip()
     if _picture_url_str.find("/474x") != -1:
       download_image(_picture_url_str, download_dir)
     elif _picture_url_str.find("/236x") != -1:
