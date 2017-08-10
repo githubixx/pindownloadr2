@@ -1,0 +1,20 @@
+version: '2'
+services:
+  pindownloadr:
+    build:
+      context: .
+      dockerfile: Dockerfile.pindownloadr2
+    image: pindownloadr:latest
+    container_name: pindownloadr
+    network_mode: host
+    volumes:
+      - /tmp:/tmp
+    # If you don't want to provide the parameter to pindownloadr container
+    # all the time you can use env. variables instead. That works for URI
+    # too but I guess you want to provide a new URL with every run ;-)
+    # environment:
+    #   SCRAPER: "localhost:3000"
+    #   LOGINNAME: "your@email.com"
+    #   LOGINPW: "yourpassword"
+    #   COUNTRY: "com"
+

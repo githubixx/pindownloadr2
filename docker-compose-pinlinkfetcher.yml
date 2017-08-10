@@ -1,0 +1,10 @@
+version: '2'
+services:
+  pinlinkfetcher:
+    build:
+      context: .
+      dockerfile: Dockerfile.pinlinkfetcher
+    image: pinlinkfetcher:latest
+    container_name: pinlinkfetcher
+    network_mode: host
+    restart: always

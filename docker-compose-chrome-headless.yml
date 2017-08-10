@@ -1,0 +1,7 @@
+version: '2'
+services:
+  chrome-headless:
+    image: knqz/chrome-headless:61.0.3114.2
+    container_name: chrome-headless
+    network_mode: host
+    restart: always
