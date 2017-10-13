@@ -28,7 +28,7 @@ const viewportHeight = 960;
 const domainPrefix = 'https://www.pinterest.';
 
 // Height of the current page in pixel (from CSS property)
-const selectorCssHeight = '._vn._2i';
+const selectorCssHeight = '._vt._2i';
 // The preview pictures have a "class" attribute with this value.
 // The IMG tag contains a SRC attribute we fetch for every pic.
 const selectorPreviewPictures = '._mj._28._3x._2k';
@@ -96,7 +96,7 @@ async function scrape(chromeless) {
       var previousHeight = 0;
 
       /* CSS selector for the height of the current page in pixel (from CSS property) */
-      var selectorCssHeight = '._vn._2i';
+      var selectorCssHeight = '._vt._2i';
 
       /*
        * The preview pictures have a "class" attribute with this value.
