@@ -102,7 +102,7 @@ async function scrape(chromeless) {
        * The preview pictures have a "class" attribute with this value.
        * The IMG tag contains a SRC attribute we fetch for every pic.
        */
-      var selectorPreviewPictures = '._mi._25._3w._2h'';
+      var selectorPreviewPictures = '._mi._25._3w._2h';
 
       /* Scroll to next page every ... */
       var scrollInterval = 6000;
