@@ -28,10 +28,10 @@ const viewportHeight = 960;
 const domainPrefix = 'https://www.pinterest.';
 
 // Height of the current page in pixel (from CSS property)
-const selectorCssHeight = '._vp._2f';
+const selectorCssHeight = '._vz._2f';
 // The preview pictures have a "class" attribute with this value.
 // The IMG tag contains a SRC attribute we fetch for every pic.
-const selectorPreviewPictures = '._mi._25._3w._2h';
+const selectorPreviewPictures = '._mj._25._3x._2h';
 
 
 async function run(req,res) {
@@ -96,13 +96,13 @@ async function scrape(chromeless) {
       var previousHeight = 0;
 
       /* CSS selector for the height of the current page in pixel (from CSS property) */
-      var selectorCssHeight = '._vp._2f';
+      var selectorCssHeight = '._vz._2f';
 
       /*
        * The preview pictures have a "class" attribute with this value.
        * The IMG tag contains a SRC attribute we fetch for every pic.
        */
-      var selectorPreviewPictures = '._mi._25._3w._2h';
+      var selectorPreviewPictures = '._mj._25._3x._2h';
 
       /* Scroll to next page every ... */
       var scrollInterval = 6000;
