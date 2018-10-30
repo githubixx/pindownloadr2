@@ -79,7 +79,7 @@ def get_image_urls(scraper, loginname, loginpw, country, uri):
 
   response = requests.get(pinlinkfetcherUrl, headers=http_request_header)
   for item in response.json():
-    urls.append(item['url'])
+    urls.append(item)
 
   return urls
 

@@ -27,12 +27,12 @@ const viewportHeight = 960;
 // pinterest URL prefix (TLD needs be supplied as argument to the script)
 const domainPrefix = 'https://www.pinterest.';
 
-// Height of the current page in pixel (from CSS property)
-// <div class="_t7 _3s" style="height: 24830px; width: 1300px;"> == $0
-const selectorCssHeight = '._ug._4f';
+// Selector for picture count
+const selectorPictureCount = '._w7._0._1._2._w9._3a._3._d._b._5';
+
 // The preview pictures have a "class" attribute with this value.
 // The IMG tag contains a SRC attribute we fetch for every pic.
-const selectorPreviewPictures = '._u3._45._y5._4h';
+const selectorPreviewPictures = '._u3._45._y6._4h';
 
 async function run(req,res) {
 
@@ -88,56 +88,57 @@ async function scrape(chromeless) {
   /* Go to board we want to scrape */
   const page = await chromeless
     .goto(domainPrefix + countryDomain + board)
-    .wait(selectorCssHeight)
     .wait(selectorPreviewPictures)
+    .wait(selectorPictureCount)
     .wait(1000)
-    .evaluate(() => {
-      /* When we start scraping we have no previous value for the page height. */
-      var previousHeight = 0;
-
-      /* CSS selector for the height of the current page in pixel (from CSS property) */
-      var selectorCssHeight = '._ug._4f';
-
-      /*
-       * The preview pictures have a "class" attribute with this value.
-       * The IMG tag contains a SRC attribute we fetch for every pic.
-       */
-      var selectorPreviewPictures = '._u3._45._y5._4h';
-
+    .evaluate((selectorPictureCount, selectorPreviewPictures) => {
       /* Scroll to next page every ... */
       var scrollInterval = 6000;
 
       /* Check if scraping is done every ... */
       var pageEndInterval = 3000;
 
-      /* Parse CSS attribute to extract the current height. */
-      var regexHeight = /^height: (\d{4}).*/g;
-
       /* If we reached the end of the board set this to 1  */
       window.scrollDone = 0;
 
       /* Store links as JSON if scrolling is done */
-      window.links;
+      //window.links;
+      window.links = new Set();
+
+      /* Get image count from page top */
+      var imageCountTmp = document.querySelector(selectorPictureCount).innerText;
+      var imageCountRegex = /^([0-9]+)/g;
+      var result = imageCountRegex.exec(imageCountTmp);
+      imageCount = parseInt(result[1]);
+      console.log("Image count: " + imageCountTmp);
+
+      /* Callback function to select all images and store result in a set */
+      var fetchImages = function (event) {
+        var elements = [].map.call(document.querySelectorAll(selectorPreviewPictures),img => (img.src));
+        var elementsLen = elements.length;
+        for (i = 0; i < elementsLen; i++) {
+          if (!window.links.has(elements[i])) {
+            window.links.add(elements[i]);
+          }
+        }
+        console.log("Current set size: " + window.links.size);
+      }
+
+      /* Add scroll event listener to fetch images after scrolling to next page */
+      window.addEventListener('scroll', fetchImages, false);
 
       /*
        * This function simulates scrolling down the whole board in order
        * to ensure all preview images of a board are loaded.
        */
       var scrollTimer = window.setInterval(function() {
- 
-        /* Extract current height */
-        tmp_height = document.querySelector(selectorCssHeight).getAttribute("style");
-        currentHeight = parseInt(regexHeight.exec(tmp_height)[1]);
-
-        /* If true we know we reached the end of the page */
-        /* otherwise keep further scrolling.              */
-        if (currentHeight == previousHeight) {
+        // Add some margin (+10) to compensate duplicates
+        if(window.links.size > imageCount + 10) {
           window.clearInterval(scrollTimer);
           window.scrollDone = 1;
           return true;
         } else {
-          previousHeight = currentHeight;
-          this.scrollTo(0,document.body.scrollHeight);
+          window.scrollBy(0,document.documentElement.clientHeight);
         }
       }, scrollInterval);
 
@@ -150,19 +151,13 @@ async function scrape(chromeless) {
         if(window.scrollDone === 1) {
           window.clearInterval(waitForPageEndTimer);
 
-          /* Get all SRC attribute values from preview images IMG tag now */
-          window.links = [].map.call(
-            document.querySelectorAll(selectorPreviewPictures),
-            img => ({url: img.src})
-          )
-
           /*
            * Total ugly hack but that was the only way to transfer the
            * JSON output (or the image links) from the Browser to the
            * console output later (see below).
            */
           var newDiv = document.createElement("DIV");
-          newDiv.appendChild(document.createTextNode(JSON.stringify(window.links)));
+          newDiv.appendChild(document.createTextNode(JSON.stringify(Array.from(window.links))));
           var attributeId = document.createAttribute("id");
           attributeId.value = "imagelinks";
           newDiv.setAttributeNode(attributeId);
@@ -171,7 +166,7 @@ async function scrape(chromeless) {
           return true;
         }
       }, pageEndInterval);
-    })
+    }, selectorPictureCount, selectorPreviewPictures)
 
 
 /*
