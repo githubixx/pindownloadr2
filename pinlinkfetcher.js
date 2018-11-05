@@ -107,10 +107,10 @@ async function scrape(chromeless) {
 
       /* Get image count from page top */
       var imageCountTmp = document.querySelector(selectorPictureCount).innerText;
-      var imageCountRegex = /^([0-9]+)/g;
+      var imageCountRegex = /^([0-9,]+)/g;
       var result = imageCountRegex.exec(imageCountTmp);
-      imageCount = parseInt(result[1]);
-      console.log("Image count: " + imageCountTmp);
+      var imageCount = parseInt(result[1].replace(",", ""));
+      console.log("Image count: " + imageCount);
 
       /* Callback function to select all images and store result in a set */
       var fetchImages = function (event) {
