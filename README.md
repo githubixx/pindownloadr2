@@ -1,6 +1,6 @@
 # pindownloadr2
 
-This script let's you download e.g. your pinned pictures from pinterest.com for backup or something like that. The easiest way to use this script is via Docker and Docker Compose because of the dependencies. If you do not want to use Docker look at the **Dockerfile** files. You can use all the instructions with a plain Ubuntu 16.04 installation since the container runs with Ubuntu 16.04 (the pindownloadr2.py Python script is only tested with Python 3).
+This script let's you download e.g. your pinned pictures from pinterest.com for backup or something like that. The easiest way to use this script is via Docker and Docker Compose because of the dependencies. If you do not want to use Docker look at the **Dockerfile** files.
 
 **FYI:** Pinterest changes it's site about 1-2 times a week which sometimes requires changes in the `pinlinkfetcher.js` file. So check back to my Github page if it doesn't work for you anymore. I try to keep up with the changes.
 
