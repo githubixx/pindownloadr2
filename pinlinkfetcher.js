@@ -17,6 +17,9 @@ var loginPw = '';
 // The country domain (e.g. 'com','de',...)
 var countryDomain = '';
 
+const headlessChromeHost = process.env.CHROME_HEADLESS_HOST || 'localhost';
+const headlessChromePort = process.env.CHROME_HEADLESS_PORT || 9222;
+
 // How long we want to wait for the whole scraping process (in ms)?
 // Basically this setting effects all "wait..()" functions.
 const scriptTimeout = 36000000;
@@ -44,7 +47,11 @@ async function run(req,res) {
   // Create chromeless instance
   const chromeless = new Chromeless({
     waitTimeout: scriptTimeout,
-    launchChrome: false
+    launchChrome: false,
+    cdp: {
+      host: headlessChromeHost,
+      port: headlessChromePort
+    }
   })
 
   // Get all cookies
