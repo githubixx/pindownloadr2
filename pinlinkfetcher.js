@@ -87,6 +87,7 @@ async function login(chromeless) {
 async function scrape(chromeless) {
   /* Go to board we want to scrape */
   const page = await chromeless
+    .setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.32 Safari/537.36')
     .goto(domainPrefix + countryDomain + board)
     .wait(selectorPreviewPictures)
     .wait(selectorPictureCount)
