@@ -8,3 +8,6 @@ services:
     container_name: pinlinkfetcher
     network_mode: host
     restart: always
+    environment:
+      CHROME_HEADLESS_HOST: "localhost"
+      CHROME_HEADLESS_PORT: "9222"
