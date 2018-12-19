@@ -110,7 +110,6 @@ async function scrape(chromeless) {
       window.scrollDone = 0;
 
       /* Store links as JSON if scrolling is done */
-      //window.links;
       window.links = new Set();
 
       /* Get image count from page top */
@@ -132,21 +131,29 @@ async function scrape(chromeless) {
         console.log("Current set size: " + window.links.size);
       }
 
-      /* Add scroll event listener to fetch images after scrolling to next page */
-      window.addEventListener('scroll', fetchImages, false);
-
       /*
        * This function simulates scrolling down the whole board in order
        * to ensure all preview images of a board are loaded.
        */
       var scrollTimer = window.setInterval(function() {
-        // Add some margin (+10) to compensate duplicates
-        if(window.links.size > imageCount + 10) {
+        // As the set data structure we use to save the pictures removes duplicates
+        // we need to a "safety margin" (+ 15). Otherwise we risk that the scraped
+        // images count is lower the the image count which will let this script run
+        // for a long time.
+        if(window.links.size + 15 >= imageCount) {
           window.clearInterval(scrollTimer);
           window.scrollDone = 1;
           return true;
         } else {
-          window.scrollBy(0,document.documentElement.clientHeight);
+          // Get all currently loaded preview images
+          var allCurrentPreviewPictures = document.querySelectorAll(selectorPreviewPictures);
+          // Get the last picture...
+          var lastPicture = allCurrentPreviewPictures[allCurrentPreviewPictures.length - 1];
+          // ... and bring picture into view which basically forces the
+          // browser to scroll further down the page.
+          lastPicture.scrollIntoView(true);
+
+          fetchImages();
         }
       }, scrollInterval);
 
