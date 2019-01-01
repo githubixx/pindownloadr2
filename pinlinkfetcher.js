@@ -94,7 +94,7 @@ async function login(chromeless) {
 async function scrape(chromeless) {
   /* Go to board we want to scrape */
   const page = await chromeless
-    .setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.32 Safari/537.36')
+    .setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3526.1 Safari/537.36')
     .goto(domainPrefix + countryDomain + board)
     .wait(selectorPreviewPictures)
     .wait(selectorPictureCount)
@@ -109,7 +109,7 @@ async function scrape(chromeless) {
       /* If we reached the end of the board set this to 1  */
       window.scrollDone = 0;
 
-      /* Store links as JSON if scrolling is done */
+      /* Store picture links as JSON if scrolling is done */
       window.links = new Set();
 
       /* Get image count from page top */
@@ -119,7 +119,7 @@ async function scrape(chromeless) {
       var imageCount = parseInt(result[1].replace(",", ""));
       console.log("Image count: " + imageCount);
 
-      /* Callback function to select all images and store result in a set */
+      /* Function to select all currently available images and store result in a set */
       async function fetchImages() {
         var elements = [].map.call(document.querySelectorAll(selectorPreviewPictures),img => (img.src));
         var elementsLen = elements.length;
@@ -137,7 +137,7 @@ async function scrape(chromeless) {
        * to ensure all preview images of a board are loaded.
        */
       var scrollTimer = window.setInterval(async function() {
-        // Store current size of links set.
+        // Store current count of picture links in set data structure.
         var linksSizeBeforeScraping = window.links.size;
 
         if(window.links.size >= imageCount) {
@@ -155,7 +155,8 @@ async function scrape(chromeless) {
 
           await fetchImages();
 
-          // If links set size haven't changed we stop scraping.
+          // If picture links set size haven't changed we probably at the end
+          // of the page and stop scraping.
           if(linksSizeBeforeScraping >= window.links.size) {
             window.clearInterval(scrollTimer);
             window.scrollDone = 1;
