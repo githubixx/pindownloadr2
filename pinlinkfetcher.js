@@ -120,7 +120,7 @@ async function scrape(chromeless) {
       console.log("Image count: " + imageCount);
 
       /* Callback function to select all images and store result in a set */
-      var fetchImages = function (event) {
+      async function fetchImages() {
         var elements = [].map.call(document.querySelectorAll(selectorPreviewPictures),img => (img.src));
         var elementsLen = elements.length;
         for (i = 0; i < elementsLen; i++) {
@@ -128,19 +128,19 @@ async function scrape(chromeless) {
             window.links.add(elements[i]);
           }
         }
-        console.log("Current set size: " + window.links.size);
+        console.log("Current links set size: " + window.links.size);
+        return;
       }
 
       /*
        * This function simulates scrolling down the whole board in order
        * to ensure all preview images of a board are loaded.
        */
-      var scrollTimer = window.setInterval(function() {
-        // As the set data structure we use to save the pictures removes duplicates
-        // we need to a "safety margin" (+ 15). Otherwise we risk that the scraped
-        // images count is lower the the image count which will let this script run
-        // for a long time.
-        if(window.links.size + 15 >= imageCount) {
+      var scrollTimer = window.setInterval(async function() {
+        // Store current size of links set.
+        var linksSizeBeforeScraping = window.links.size;
+
+        if(window.links.size >= imageCount) {
           window.clearInterval(scrollTimer);
           window.scrollDone = 1;
           return true;
@@ -153,7 +153,14 @@ async function scrape(chromeless) {
           // browser to scroll further down the page.
           lastPicture.scrollIntoView(true);
 
-          fetchImages();
+          await fetchImages();
+
+          // If links set size haven't changed we stop scraping.
+          if(linksSizeBeforeScraping >= window.links.size) {
+            window.clearInterval(scrollTimer);
+            window.scrollDone = 1;
+            return true;
+					}
         }
       }, scrollInterval);
 
