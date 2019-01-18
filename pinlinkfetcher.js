@@ -35,7 +35,7 @@ const selectorPictureCount = '._w7._0._1._2._w9._3a._d._b._5';
 
 // The preview pictures have a "class" attribute with this value.
 // The IMG tag contains a SRC attribute we fetch for every pic.
-const selectorPreviewPictures = '._u3._45._y6._4h';
+const selectorPreviewPictures = '._u3._45._y8._4h';
 
 async function run(req,res) {
 
