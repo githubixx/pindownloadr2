@@ -31,11 +31,11 @@ const viewportHeight = 960;
 const domainPrefix = 'https://www.pinterest.';
 
 // Selector for picture count
-const selectorPictureCount = '._wa._0._1._2._wc._3a._d._b._5';
+const selectorPictureCount = '.tBJ.dyH.iFc.SMy.MF7.B9u.DrD.IZT.swG';
 
 // The preview pictures have a "class" attribute with this value.
 // The IMG tag contains a SRC attribute we fetch for every pic.
-const selectorPreviewPictures = '._u5._47._yb._4j';
+const selectorPreviewPictures = '.hCL.kVc.L4E.MIw';
 
 async function run(req,res) {
 
