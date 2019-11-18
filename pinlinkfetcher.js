@@ -62,7 +62,7 @@ async function run(req,res) {
   // logged in. But that's not the whole truth ;-) Need to
   // investigate further. But good enough for now.
   cookies.forEach(function(cookie) {
-    if (cookie.name === 'cm_sub') {
+    if (cookie.name === '_auth') {
       do_login = false;
     }
   })
@@ -94,7 +94,7 @@ async function login(chromeless) {
 async function scrape(chromeless) {
   /* Go to board we want to scrape */
   const page = await chromeless
-    .setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3526.1 Safari/537.36')
+    .setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36')
     .goto(domainPrefix + countryDomain + board)
     .wait(selectorPreviewPictures)
     .wait(selectorPictureCount)
