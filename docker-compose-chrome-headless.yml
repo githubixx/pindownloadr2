@@ -1,7 +1,7 @@
 version: '2'
 services:
   chrome-headless:
-    image: chromedp/headless-shell:70.0.3526.1
+    image: chromedp/headless-shell:78.0.3904.97
     container_name: chrome-headless
     network_mode: host
     restart: always
