@@ -1,5 +1,7 @@
 # pindownloadr2
 
+**This repository is deprecated and archived.** Use my new project [pinbackup](https://github.com/githubixx/pinbackup) as a replacement.
+
 This script let's you download e.g. your pinned pictures from pinterest.com for backup or something like that. The easiest way to use this script is via Docker and Docker Compose because of the dependencies. If you do not want to use Docker look at the **Dockerfile** files.
 
 **FYI:** Pinterest changes it's site about 1-2 times a week which sometimes requires changes in the `pinlinkfetcher.js` file. So check back to my Github page if it doesn't work for you anymore. I try to keep up with the changes.
